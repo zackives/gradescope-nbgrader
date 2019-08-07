@@ -7,3 +7,5 @@ pip3 install jupyter-console ipython
 
 # This is for GradeScope
 pip3 install -r /autograder/source/requirements.txt
+
+cp /autograder/nbgrader_config.py /autograder
