@@ -6,4 +6,4 @@ pip3 install nbgrader pandas numpy networkx matplotlib
 pip3 install jupyter-console ipython
 
 # This is for GradeScope
-pip3 install -r source/requirements.txt
+pip3 install -r /autograder/source/requirements.txt
