@@ -9,6 +9,6 @@ pip3 install jupyter-console ipython
 pip3 install -r /autograder/source/requirements.txt
 
 cp /autograder/source/nbgrader_config.py /autograder
-cp /autograder/source/header.ipynb /autograder
-cp -r /autograder/source/ps1 /autograder
+cp /autograder/source/source/header.ipynb /autograder/
+cp -r /autograder/source/source/ps1 /autograder/
 
