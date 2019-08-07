@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+mkdir submitted
+mkdir submitted/hacker
+ln -s `pwd`/submission submitted/hacker/ps1
+mkdir results
+echo > results/results.json
+nbgrader assign ps1
+nbgrader autograde ps1
+nbgrader feedback ps1
+nbgrader export
+cat grades.csv | grep 'ps1,.*hacker.*'
