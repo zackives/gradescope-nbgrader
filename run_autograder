@@ -4,6 +4,9 @@ mkdir submitted/hacker
 ln -s `pwd`/submission submitted/hacker/ps1
 mkdir results
 echo > results/results.json
+cp header.ipynb source/
+cp -r ps1 source/
+nbgrader db assignment add ps1
 nbgrader assign ps1
 nbgrader autograde ps1
 nbgrader feedback ps1
