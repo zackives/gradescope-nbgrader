@@ -14,9 +14,7 @@ c.CourseDirectory.db_assignments = [dict(name="ps1")]
 # Change the students in this list with that actual students in
 # your course
 c.CourseDirectory.db_students = [
-    dict(id="bitdiddle", first_name="Ben", last_name="Bitdiddle"),
     dict(id="hacker", first_name="Alyssa", last_name="Hacker"),
-    dict(id="reasoner", first_name="Louis", last_name="Reasoner")
 ]
 
 c.IncludeHeaderFooter.header = "source/header.ipynb"
@@ -649,7 +647,7 @@ c.IncludeHeaderFooter.header = "source/header.ipynb"
 #c.Exchange.path_includes_course = False
 
 ## The nbgrader exchange directory writable to everyone. MUST be preexisting.
-#c.Exchange.root = '/srv/nbgrader/exchange'
+c.Exchange.root = './exchange'
 
 ## Format string for timestamps
 #c.Exchange.timestamp_format = '%Y-%m-%d %H:%M:%S.%f %Z'
