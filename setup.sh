@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-apt-get install -y python3 python3-pip python3-dev
+apt-get install -y python3 python3-pip python3-dev jq
 
 pip3 install nbgrader pandas numpy networkx matplotlib pyspark tensorflow
 # Update these back to the latest versions
