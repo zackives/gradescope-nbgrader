@@ -1,17 +1,27 @@
 #!/usr/bin/env bash
+# Z. Ives 8/8/2019
+
+# Map Gradescope's submission dir to where nbgrader expects it
 mkdir submitted
 mkdir submitted/hacker
 ln -s `pwd`/submission submitted/hacker/ps1
 mkdir results
 echo > results/results.json
+# Copy the source files into the source directory
 cp header.ipynb source/
 cp -r ps1 source/
+# Init nbgrader database with one assignment (ps1)
 nbgrader db assignment add ps1
 nbgrader assign ps1
+# Run / rerun autograder on the submission
 nbgrader autograde ps1 --force
-nbgrader feedback ps1
+# Optional: generate HTML feedback (we don't have a place to put it)
+#nbgrader feedback ps1
 nbgrader export
+# Overall assignment grades to JSON
 cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/overall.json
+# Extract per-cell feedback to JSON
 cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "visibility": "visible", "stdout_visibility": "visible", "code": .source, "output": .outputs} )}
 ' > results/tests.json
+# Merge the JSON files to results.json for Gradescope
 jq -s '.[0] * .[1]' results/overall.json results/tests.json > results/results.json
