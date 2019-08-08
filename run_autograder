@@ -25,3 +25,4 @@ cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadat
 ' > results/tests.json
 # Merge the JSON files to results.json for Gradescope
 jq -s '.[0] * .[1]' results/overall.json results/tests.json > results/results.json
+rm results/overall.json results/tests.json
