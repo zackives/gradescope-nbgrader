@@ -11,5 +11,5 @@ nbgrader assign ps1
 nbgrader autograde ps1
 nbgrader feedback ps1
 nbgrader export
-cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": {"name": "points", "value": .[9]}}) | .[0]' > results/results.json
+cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/results.json
 
