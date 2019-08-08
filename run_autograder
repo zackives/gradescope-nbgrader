@@ -8,8 +8,10 @@ cp header.ipynb source/
 cp -r ps1 source/
 nbgrader db assignment add ps1
 nbgrader assign ps1
-nbgrader autograde ps1
+nbgrader autograde ps1 --force
 nbgrader feedback ps1
 nbgrader export
-cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/results.json
-
+cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/overall.json
+cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "visibility": "visible", "stdout_visibility": "visible", "code": .source, "output": .outputs} )}
+' > results/tests.json
+jq -s '.[0] * .[1]' results/overall.json results/tests.json > results/results.json
