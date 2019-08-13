@@ -1,4 +1,4 @@
-# Gradescope scripts for CIS 545 autograding
+# Gradescope scripts for Jupyter Notebook autograding
 
 This repository contains source files for Gradescope's autograding facilities, described at https://gradescope-autograders.readthedocs.io/en/latest/getting_started/.  By default we are assuming submissions in Python 3.
 
