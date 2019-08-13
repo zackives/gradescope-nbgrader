@@ -39,3 +39,5 @@ The main components are:
 * `nbgrader_config.py` - configuration for nbgrader.  Assumes one student (with ID 'hacker', aka Alyssa Hacker) and one problem set, `ps1`.
 * `requirements.txt` - this is a Python dependencies file for pip.  Include versioned dependencies here.
 * `run_autograder` - this is a bash script to run nbgrader (with feedback) and to generate the `results.json` file Gradescope expects.
+
+We have also included sample notebooks, based on those from nbgrader, in the `source` directory. See the LICENSE file for information on the license. 
