@@ -19,14 +19,12 @@ nbgrader autograde ps1 --force
 #nbgrader feedback ps1
 nbgrader export
 # Overall assignment grades to JSON
-cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "after_due_date", "stdout_visibility": true, "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/overall.json
+cat grades.csv | grep 'ps1,.*hacker.*' | jq --raw-input 'split("\n") | map(split(",")) |  map({"score": .[9], "visibility": "visible", "extra_data": { "max_score": .[10]}, "tests": [], "leaderboard": [{"name": "points", "value": .[9]}]}) | .[0]' > results/overall.json
 # Extract per-cell feedback to JSON
-cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "code": .source, "extra_data": {"output": (.outputs | .) }, "output": (.outputs | map( . | select(.data."text/plain").data."text/plain"[], select(.ename).ename, select(.traceback).traceback[])) | join("\n") } )}' > results/tests.json
+#cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "visibility": "visible", "extra_data": {"code": .source, "output": (.outputs | .) }, "output": (.outputs | map( . | select(.data."text/plain").data."text/plain"[], select(.ename).ename, select(.traceback).traceback[])) | join("\n") } )}' > results/tests.json
+cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "visibility": "visible", "output": (.outputs | map( . | select(.data."text/plain").data."text/plain"[], select(.ename).ename, select(.traceback).traceback[])) | join("\n") } )}' > results/tests.json
+# Remove VT100 codes for cursor position etc
+sed -e "s/\\\\u001b\[[^m]*m//g" results/tests.json > results/tests2.json
 # Merge the JSON files to results.json for Gradescope
-jq -s '.[0] * .[1]' results/overall.json results/tests.json > results/results.json
-rm results/overall.json results/tests.json
-
-#cat autograded/hacker/ps1/*ipynb | jq '{"tests": .cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "visibility": "visible", "stdout_visibility": "visible", "extra_data": {"code": .source}, "output": .outputs} )}' > results/tests.json
-#.cells | map( select ( .metadata.nbgrader.grade_id and .metadata.nbgrader.points and .outputs )  | {"name": .metadata.nbgrader.grade_id, "score": .metadata.nbgrader.points, "code": .source, "extra_data": {"output": (.outputs | .) } } )
-
-# outputs [ data: text/plain : []]]
+jq -s '.[0] * .[1]' results/overall.json results/tests2.json > results/results.json
+#rm results/overall.json results/tests*.json
